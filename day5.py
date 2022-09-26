@@ -13,6 +13,9 @@ class Line:
 
     def horizontal(self):
         return self.y1 == self.y2
+    
+    def diagonal(self):
+        return abs(self.x1 - self.x2) == abs(self.y1 - self.y2)
 
 
 lines = []          # list of Lines
@@ -62,6 +65,26 @@ for line in lines:
         x2 = max(line.x1, line.x2)
         for i in range(x1, x2+1):
             diagram[y][i] += 1
+    
+    # diagonal lines
+    elif line.diagonal():
+        x1, x2 = line.x1, line.x2
+        if line.y1 < line.y2:
+            for r in range(line.y1, line.y2+1):
+                if line.x1 < line.x2:
+                    diagram[r][x1] += 1    
+                    x1 += 1
+                else:
+                    diagram[r][x1] += 1    
+                    x1 -= 1
+        else:
+            for r in range(line.y2, line.y1+1):
+                if line.x1 < line.x2:
+                    diagram[r][x2] += 1    
+                    x2 -= 1
+                else:
+                    diagram[r][x2] += 1    
+                    x2 += 1
 
 # count values > 2 in diagram
 counter = 0
